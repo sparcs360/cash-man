@@ -6,8 +6,21 @@ import org.springframework.context.ApplicationEvent;
 
 public abstract class EventBase extends ApplicationEvent {
 
-    protected EventBase(Object source) {
+    private final String venueId;
+
+    private final String deviceId;
+    protected EventBase(Object source, String venueId, String deviceId) {
+
         super(source);
+
+        this.venueId = venueId;
+        this.deviceId = deviceId;
+    }
+
+    @JsonIgnore
+    @Override
+    public Object getSource() {
+        return super.getSource();
     }
 
     @JsonProperty("eventName")
@@ -15,9 +28,13 @@ public abstract class EventBase extends ApplicationEvent {
         return this.getClass().getSimpleName();
     }
 
-    @JsonIgnore
-    @Override
-    public Object getSource() {
-        return super.getSource();
+    @JsonProperty("venueId")
+    public String getVenueId() {
+        return venueId;
+    }
+
+    @JsonProperty("deviceId")
+    public String getDeviceId() {
+        return deviceId;
     }
 }

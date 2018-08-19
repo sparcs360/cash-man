@@ -8,20 +8,19 @@ import java.math.BigDecimal;
 
 public class EBetslipSold extends EventBase {
 
-    public final String deviceId;
-    public final String slipId;
-    public final BigDecimal amount;
+    protected final String slipId;
+    protected final BigDecimal amount;
 
     @JsonCreator
     public EBetslipSold(
             Object source,
+            @JsonProperty("venueId") String venueId,
             @JsonProperty("deviceId") String deviceId,
             @JsonProperty("slipId") String slipId,
             @JsonProperty("amount") BigDecimal amount) {
 
-        super(source);
+        super(source, venueId, deviceId);
 
-        this.deviceId = deviceId;
         this.slipId = slipId;
         this.amount = amount;
     }
@@ -29,11 +28,12 @@ public class EBetslipSold extends EventBase {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("source", getSource())
                 .append("timestamp", getTimestamp())
-                .append("deviceId", deviceId)
+                .append("venueId", getVenueId())
+                .append("deviceId", getDeviceId())
                 .append("slipId", slipId)
                 .append("amount", amount)
+                .append("source", getSource())
                 .toString();
     }
 }

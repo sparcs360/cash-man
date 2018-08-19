@@ -9,20 +9,19 @@ import java.math.BigDecimal;
 
 public class EBalanceUpdated extends EventBase {
 
-    public final String deviceId;
     public final BigDecimal amount;
     public final BigDecimal balance;
 
     @JsonCreator
     public EBalanceUpdated(
             Object source,
+            @JsonProperty("venueId") String venueId,
             @JsonProperty("deviceId") String deviceId,
             @JsonProperty("amount") BigDecimal amount,
             @JsonProperty("balance") BigDecimal balance) {
 
-        super(source);
+        super(source, venueId, deviceId);
 
-        this.deviceId = deviceId;
         this.amount = amount;
         this.balance = balance;
     }
@@ -30,11 +29,12 @@ public class EBalanceUpdated extends EventBase {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("source", getSource())
                 .append("timestamp", getTimestamp())
-                .append("deviceId", deviceId)
+                .append("venueId", getVenueId())
+                .append("deviceId", getDeviceId())
                 .append("amount", amount)
                 .append("balance", balance)
+                .append("source", getSource())
                 .toString();
     }
 }

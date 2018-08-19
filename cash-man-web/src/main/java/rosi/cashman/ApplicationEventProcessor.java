@@ -24,9 +24,9 @@ public class ApplicationEventProcessor implements ApplicationListener<EventBase>
     public Flux<EventBase> getEventFeed() {
 
         return eventFeed.publishOn(Schedulers.single());
-        //return eventFeed.publishOn(Schedulers.newSingle("Events", true));
-        //return eventFeed.publishOn(Schedulers.newElastic("Events", 10, true));
-        //return eventFeed.publishOn(Schedulers.parallel());
+        //return allEvents.publishOn(Schedulers.newSingle("Events", true));
+        //return allEvents.publishOn(Schedulers.newElastic("Events", 10, true));
+        //return allEvents.publishOn(Schedulers.parallel());
     }
 
     @Override

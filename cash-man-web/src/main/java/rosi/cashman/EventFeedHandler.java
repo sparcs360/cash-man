@@ -2,7 +2,9 @@ package rosi.cashman;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -22,12 +24,29 @@ public class EventFeedHandler {
         this.applicationEventProcessor = applicationEventProcessor;
     }
 
-    public Mono<ServerResponse> eventFeed(ServerRequest serverRequest) {
+    public Mono<ServerResponse> allEvents(ServerRequest request) {
+
+        LOGGER.debug("allEvents");
 
         return ok()
                 .contentType(APPLICATION_STREAM_JSON)
                 .body(applicationEventProcessor.getEventFeed()
                         .share()
-                        .log("rosi.cashman.events"), EventBase.class);
+                        .log("rosi.cashman.events.all"), EventBase.class);
+    }
+
+    public Mono<ServerResponse> eventsByVenue(ServerRequest request) {
+
+        LOGGER.debug("eventsByVenue");
+
+        String venueId = request.queryParam("venueId")
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST));
+
+        return ok()
+                .contentType(APPLICATION_STREAM_JSON)
+                .body(applicationEventProcessor.getEventFeed()
+                        .filter(event -> event.getVenueId().equals(venueId))
+                        .share()
+                        .log("rosi.cashman.events.byVenueId"), EventBase.class);
     }
 }

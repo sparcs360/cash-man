@@ -30,6 +30,8 @@ public class TransactionHandler {
 
     public Mono<ServerResponse> recordSlipSale(ServerRequest request) {
 
+        String venueId = request.queryParam("venueId")
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST));
         String deviceId = request.queryParam("deviceId")
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST));
         String slipId = request.queryParam("slipId")
@@ -39,8 +41,8 @@ public class TransactionHandler {
 
         LOGGER.debug("recordSlipSale(deviceId={}, slipId={}, amount={})", deviceId, slipId, amount);
 
-        applicationEventPublisher.publishEvent(new EBetslipSold(this, deviceId, slipId, amount));
-        applicationEventPublisher.publishEvent(new EBalanceUpdated(this, deviceId, amount, BigDecimal.ZERO));
+        applicationEventPublisher.publishEvent(new EBetslipSold(this, venueId, deviceId, slipId, amount));
+        applicationEventPublisher.publishEvent(new EBalanceUpdated(this, venueId, deviceId, amount, BigDecimal.ZERO));
 
         return accepted().build();
     }
