@@ -2,36 +2,36 @@ package rosi.cashman;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxProcessor;
 import reactor.core.publisher.TopicProcessor;
 import reactor.core.scheduler.Schedulers;
+import rosi.cashman.events.EventBase;
 
 @Component
-public class ApplicationEventProcessor implements ApplicationListener<ApplicationEvent> {
+public class ApplicationEventProcessor implements ApplicationListener<EventBase> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationEventProcessor.class);
 
-    FluxProcessor<ApplicationEvent, ApplicationEvent> hotSource = TopicProcessor.create();
+    FluxProcessor<EventBase, EventBase> eventFeed = TopicProcessor.create();
 
     ApplicationEventProcessor() {
 
     }
 
-    public Flux<ApplicationEvent> getHotEventFlux() {
+    public Flux<EventBase> getEventFeed() {
 
-        return hotSource.publishOn(Schedulers.single());
-        //return hotSource.publishOn(Schedulers.newSingle("Events", true));
-        //return hotSource.publishOn(Schedulers.newElastic("Events", 10, true));
-        //return hotSource.publishOn(Schedulers.parallel());
+        return eventFeed.publishOn(Schedulers.single());
+        //return eventFeed.publishOn(Schedulers.newSingle("Events", true));
+        //return eventFeed.publishOn(Schedulers.newElastic("Events", 10, true));
+        //return eventFeed.publishOn(Schedulers.parallel());
     }
 
     @Override
-    public void onApplicationEvent(ApplicationEvent event) {
+    public void onApplicationEvent(EventBase event) {
         LOGGER.debug("Received: {}", event);
-        hotSource.onNext(event);
+        eventFeed.onNext(event);
     }
 }
