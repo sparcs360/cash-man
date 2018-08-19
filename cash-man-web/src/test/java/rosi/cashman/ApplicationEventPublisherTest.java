@@ -18,9 +18,9 @@ import java.time.Duration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EventPublisherTest {
+public class ApplicationEventPublisherTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventPublisherTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationEventPublisherTest.class);
 
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;

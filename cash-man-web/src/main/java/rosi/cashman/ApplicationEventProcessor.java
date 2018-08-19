@@ -15,8 +15,6 @@ public class ApplicationEventProcessor implements ApplicationListener<Applicatio
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationEventProcessor.class);
 
-    //private final Queue<EventBase> queue;
-    //private final Flux<EventBase> events;
     FluxProcessor<ApplicationEvent, ApplicationEvent> hotSource = TopicProcessor.create();
 
     ApplicationEventProcessor() {
