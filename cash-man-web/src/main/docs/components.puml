@@ -1,0 +1,34 @@
+@startuml
+
+    database "MongoDB" as db
+
+    component "Reactive\nRepository" as rr
+    rr <-up-> db
+
+    component "GraphQL" as gql
+    gql -up-> rr : mutation(createTransaction)
+    gql -[#blue]up-> rr : subscription(balanceChanged(venueId))
+
+node "Venue #1" as v1 {
+    component "Till #1" as t1.1
+    component "Till #2" as t1.2
+
+    t1.1 -up-> gql : tx
+    t1.2 -up-> gql : tx
+
+    t1.1 -[#blue]up-> gql : sub
+    t1.2 -[#blue]up-> gql : sub
+}
+
+node "Venue #2" as v2 {
+    component "Till #1" as t2.1
+    component "Till #2" as t2.2
+
+    t2.1 -up-> gql : tx
+    t2.2 -up-> gql : tx
+
+    t2.1 -[#blue]up-> gql : sub
+    t2.2 -[#blue]up-> gql : sub
+}
+
+@enduml
