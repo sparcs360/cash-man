@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
-import rosi.cashman.events.EBalanceUpdated;
+import rosi.cashman.events.EBalanceChanged;
 import rosi.cashman.events.EventBase;
 
 import java.math.BigDecimal;
@@ -28,9 +28,9 @@ public class ApplicationEventPublisherTest {
     @Autowired
     ApplicationEventProcessor eventPublisher;
 
-    EBalanceUpdated event1 = new EBalanceUpdated(this,"VENUE_ID","DEVICE_ID", new BigDecimal(10.0f), new BigDecimal(10.0f));
-    EBalanceUpdated event2 = new EBalanceUpdated(this,"VENUE_ID","DEVICE_ID", new BigDecimal(5.0f), new BigDecimal(15.0f));
-    EBalanceUpdated event3 = new EBalanceUpdated(this,"VENUE_ID","DEVICE_ID", new BigDecimal(-10.0f), new BigDecimal(5.0f));
+    EBalanceChanged event1 = new EBalanceChanged(this,"VENUE_ID","DEVICE_ID", "ACCOUNT_ID", new BigDecimal(10.0f), new BigDecimal(10.0f));
+    EBalanceChanged event2 = new EBalanceChanged(this,"VENUE_ID","DEVICE_ID", "ACCOUNT_ID", new BigDecimal(5.0f), new BigDecimal(15.0f));
+    EBalanceChanged event3 = new EBalanceChanged(this,"VENUE_ID","DEVICE_ID", "ACCOUNT_ID", new BigDecimal(-10.0f), new BigDecimal(5.0f));
 
     @Test
     public void testWithVirtualScheduler() {

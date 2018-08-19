@@ -8,8 +8,9 @@ import java.math.BigDecimal;
 
 public class EBetslipSold extends EventBase {
 
-    protected final String slipId;
-    protected final BigDecimal amount;
+    private final String slipId;
+
+    private final BigDecimal amount;
 
     @JsonCreator
     public EBetslipSold(
@@ -23,6 +24,16 @@ public class EBetslipSold extends EventBase {
 
         this.slipId = slipId;
         this.amount = amount;
+    }
+
+    @JsonProperty("slipId")
+    public String getSlipId() {
+        return slipId;
+    }
+
+    @JsonProperty("amount")
+    public BigDecimal getAmount() {
+        return amount;
     }
 
     @Override

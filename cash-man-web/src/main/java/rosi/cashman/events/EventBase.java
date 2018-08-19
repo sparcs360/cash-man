@@ -23,8 +23,8 @@ public abstract class EventBase extends ApplicationEvent {
         return super.getSource();
     }
 
-    @JsonProperty("eventName")
-    public String getEventName() {
+    @JsonProperty("eventType")
+    public String getEventType() {
         return this.getClass().getSimpleName();
     }
 
